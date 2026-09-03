@@ -47,7 +47,7 @@
         <p>Ты — самая особенная девушка в моей жизни. Я просто хочу, чтобы ты улыбалась и верила в себя.</p>
         <a class="btn" href="#letter">Открой своё послание 💌</a>
       </div>
-      <div class="portrait"><img src="shynarochka.jpg" alt="Фото Шынарочки"></div>
+      <div class="portrait"><img src="assets/shynarochka.jpg" alt="Фото Шынарочки"></div>
     </section>
 
     <section id="story">
@@ -104,11 +104,25 @@
   <footer><div class="footer-love">Шынарочка, ты особенная ❤️</div><div class="small">Сделано с любовью только для тебя</div></footer>
 
   <script>
-    new QRCode(document.getElementById('qrcode'), {text: location.href, width:200, height:200, correctLevel: QRCode.CorrectLevel.H});
-    const musicBtn=document.getElementById('musicBtn'); let ctx,playing=false,timer;
-    const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23];
-    musicBtn.addEventListener('click',()=>{ if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)(); playing=!playing; musicBtn.textContent=playing?'❚❚':'♫'; if(playing){let i=0; timer=setInterval(()=>{const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=notes[i++%notes.length];o.type='sine';g.gain.setValueAtTime(.0001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.06,ctx.currentTime+.03);g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.42);o.connect(g).connect(ctx.destination);o.start();o.stop(ctx.currentTime+.45)},500)}else clearInterval(timer)});
-    setInterval(()=>{const h=document.createElement('div');h.className='heart';h.textContent=Math.random()>.35?'♥':'♡';h.style.left=Math.random()*100+'vw';h.style.fontSize=(14+Math.random()*22)+'px';h.style.animationDuration=(5+Math.random()*5)+'s';document.body.appendChild(h);setTimeout(()=>h.remove(),10000)},900);
-  </script>
+const musicBtn = document.getElementById('musicBtn');
+const song = new Audio('Alystama-Menen.mp3');
+song.preload = 'metadata';
+song.loop = true;
+
+musicBtn.addEventListener('click', async () => {
+  try {
+    if (song.paused) {
+      song.currentTime = 13;
+      await song.play();
+      musicBtn.textContent = '⏸ Музыка';
+    } else {
+      song.pause();
+      musicBtn.textContent = '🎵 Музыка';
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+</script>
 </body>
 </html>
